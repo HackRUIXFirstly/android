@@ -5,13 +5,11 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
-import com.facebook.login.widget.LoginButton;
+import com.facebook.login.LoginManager;
 import com.github.hackruixfirstly.firstly.R;
 
-import butterknife.Bind;
+import java.util.Arrays;
+
 import butterknife.ButterKnife;
 
 /**
@@ -19,11 +17,8 @@ import butterknife.ButterKnife;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    @Bind(R.id.login_button)
-    LoginButton loginButton;
-
     CallbackManager callbackManager;
-
+    LoginManager loginManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,27 +26,9 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
 
+        loginManager = LoginManager.getInstance();
         callbackManager = CallbackManager.Factory.create();
-        loginButton.setReadPermissions("user_friends");
-
-        // Callback registration
-        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                // App code
-            }
-
-            @Override
-            public void onCancel() {
-                // App code
-            }
-
-            @Override
-            public void onError(FacebookException exception) {
-                // App code
-            }
-        });
-
+        loginManager.logInWithReadPermissions(this, Arrays.asList("user_friends"));
     }
 
     @Override
