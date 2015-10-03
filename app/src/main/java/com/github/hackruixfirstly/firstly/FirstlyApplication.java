@@ -2,6 +2,7 @@ package com.github.hackruixfirstly.firstly;
 
 import android.app.Application;
 
+import com.facebook.FacebookSdk;
 import com.github.hackruixfirstly.firstly.depdendencies.DaggerFirstlyComponent;
 import com.github.hackruixfirstly.firstly.depdendencies.FirstlyComponent;
 import com.github.hackruixfirstly.firstly.depdendencies.FirstlyModule;
@@ -20,6 +21,8 @@ public class FirstlyApplication extends Application {
         super.onCreate();
 
         Timber.plant(new Timber.DebugTree());
+
+        FacebookSdk.sdkInitialize(getApplicationContext());
 
         mComponent = DaggerFirstlyComponent.builder().firstlyModule(new FirstlyModule(this)).build();
 
