@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import com.github.hackruixfirstly.firstly.FirstlyApplication;
 import com.github.hackruixfirstly.firstly.R;
@@ -22,6 +23,7 @@ import retrofit.Call;
 import retrofit.Callback;
 import retrofit.Response;
 import retrofit.Retrofit;
+import timber.log.Timber;
 
 /**
  * Created by trevor on 10/3/15.
@@ -31,9 +33,10 @@ public class NewExperienceActivity extends AppCompatActivity {
     @Inject FirstlyAPI        API;
     @Inject AccessTokenHolder tokenHolder;
 
-    @Bind (R.id.activity_new_experience_toolbar) Toolbar  toolbar;
-    @Bind (R.id.activity_new_experience_title)   EditText titleText;
-    @Bind (R.id.activity_new_experience_submit)  Button   submitButton;
+    @Bind (R.id.activity_new_experience_toolbar)   Toolbar      toolbar;
+    @Bind (R.id.activity_new_experience_title)     EditText     titleText;
+    @Bind (R.id.activity_new_experience_submit)    Button       submitButton;
+    @Bind (R.id.activity_new_experience_container) LinearLayout container;
 
     @Override
     protected void onCreate (Bundle savedInstanceState) {
@@ -53,12 +56,13 @@ public class NewExperienceActivity extends AppCompatActivity {
             call.enqueue(new Callback<Experience>() {
                 @Override
                 public void onResponse (Response<Experience> response, Retrofit retrofit) {
-                    finish(); // TODO getting a 200 but not getting here, something must be wrong with deserialization.
+                    finish();
                 }
 
                 @Override
                 public void onFailure (Throwable t) {
-                    Snackbar.make(submitButton, t.getMessage(), Snackbar.LENGTH_LONG);
+                    Timber.e(t.toString());
+                    Snackbar.make(container, t.getMessage(), Snackbar.LENGTH_LONG);
                 }
             });
         }

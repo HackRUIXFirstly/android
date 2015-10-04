@@ -63,7 +63,7 @@ public class FirstlyModule {
     @Provides
     @Singleton
     public Gson provideGson() {
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm'Z'").create();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'").create();
         return gson;
     }
 
