@@ -9,7 +9,7 @@ public class Experience extends BaseModel {
 
     public String text;
     public Date   dateCreated;
-    public String facebookId;
+    public User   _user;
 
     public Experience(String text) {
         this.text = text;

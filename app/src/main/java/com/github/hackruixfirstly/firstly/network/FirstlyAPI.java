@@ -27,4 +27,7 @@ public interface FirstlyAPI {
     @POST("experience")
     Call<Experience> postExperience(@Body Experience experience, @Query("access_token") String accessToken);
 
+    @GET("user/feed")
+    Call<List<Experience>> getFeed(@Query("access_token") String accessToken);
+
 }

@@ -6,6 +6,7 @@
         <variable
             name="experience"
             type="com.github.hackruixfirstly.firstly.models.Experience"/>
+        <import type="com.github.hackruixfirstly.firstly.view.ViewUtil"/>
     </data>
 
     <LinearLayout
@@ -25,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="8dp"
-            android:text="@{experience.dateCreated}"
+            android:text="@{ViewUtil.getFriendlyDate(experience.dateCreated)}"
             tools:text="Date"/>
 
     </LinearLayout>
