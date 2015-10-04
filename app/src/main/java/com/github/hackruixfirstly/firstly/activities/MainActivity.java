@@ -3,6 +3,7 @@ package com.github.hackruixfirstly.firstly.activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -36,9 +37,11 @@ public class MainActivity extends AppCompatActivity {
     @Inject FirstlyAPI        API;
     @Inject AccessTokenHolder tokenHolder;
 
-    @Bind (R.id.toolbar)                Toolbar              toolbar;
-    @Bind (R.id.fab)                    FloatingActionButton fab;
-    @Bind (R.id.activity_main_recycler) RecyclerView         recycler;
+    @Bind (R.id.toolbar)                     Toolbar              toolbar;
+    @Bind (R.id.fab)                         FloatingActionButton fab;
+    @Bind (R.id.activity_main_recycler)      RecyclerView         recycler;
+    @Bind (R.id.activity_main_swipe_refresh) SwipeRefreshLayout   swipeRefresh;
+
 
     ExperienceListAdapter adapter;
 
@@ -57,21 +60,15 @@ public class MainActivity extends AppCompatActivity {
         recycler.setAdapter(adapter);
         recycler.setLayoutManager(new LinearLayoutManager(this));
 
-        API.getFeed(tokenHolder.token).enqueue(new Callback<List<Experience>>() {
-            @Override
-            public void onResponse (Response<List<Experience>> response, Retrofit retrofit) {
-                experienceList.clear();
-                experienceList.addAll(response.body());
-                adapter.notifyDataSetChanged();
-            }
+        getExperiences();
 
+        swipeRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
-            public void onFailure (Throwable t) {
-                Timber.e(t.toString());
+            public void onRefresh () {
+                getExperiences();
             }
         });
 
-        ((FirstlyApplication) getApplication()).getComponent().inject(this);
     }
 
     @Override
@@ -101,4 +98,22 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, NewExperienceActivity.class);
         startActivity(intent);
     }
+
+    private void getExperiences() {
+        API.getFeed(tokenHolder.token).enqueue(new Callback<List<Experience>>() {
+            @Override
+            public void onResponse (Response<List<Experience>> response, Retrofit retrofit) {
+                experienceList.clear();
+                experienceList.addAll(response.body());
+                adapter.notifyDataSetChanged();
+                swipeRefresh.setRefreshing(false);
+            }
+
+            @Override
+            public void onFailure (Throwable t) {
+                Timber.e(t.toString());
+            }
+        });
+    }
 }
+
