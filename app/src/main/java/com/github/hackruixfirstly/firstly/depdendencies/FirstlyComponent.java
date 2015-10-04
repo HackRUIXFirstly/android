@@ -2,6 +2,7 @@ package com.github.hackruixfirstly.firstly.depdendencies;
 
 import com.github.hackruixfirstly.firstly.activities.LoginActivity;
 import com.github.hackruixfirstly.firstly.activities.MainActivity;
+import com.github.hackruixfirstly.firstly.activities.NewExperienceActivity;
 
 import javax.inject.Singleton;
 
@@ -18,5 +19,7 @@ public interface FirstlyComponent {
     void inject(MainActivity mainActivity);
 
     void inject(LoginActivity loginActivity);
+
+    void inject(NewExperienceActivity newExperienceActivity);
 
 }

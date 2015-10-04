@@ -11,6 +11,7 @@ import retrofit.Call;
 import retrofit.http.Body;
 import retrofit.http.GET;
 import retrofit.http.POST;
+import retrofit.http.Query;
 
 /**
  * Created by trevor on 10/3/15.
@@ -24,6 +25,6 @@ public interface FirstlyAPI {
     Call<List<Experience>> getExperiences();
 
     @POST("experience")
-    Call<Experience> postExperience(@Body Experience experience);
+    Call<Experience> postExperience(@Body Experience experience, @Query("access_token") String accessToken);
 
 }

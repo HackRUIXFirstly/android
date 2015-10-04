@@ -14,6 +14,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.github.hackruixfirstly.firstly.FirstlyApplication;
 import com.github.hackruixfirstly.firstly.R;
+import com.github.hackruixfirstly.firstly.depdendencies.AccessTokenHolder;
 import com.github.hackruixfirstly.firstly.models.AuthRequest;
 import com.github.hackruixfirstly.firstly.network.FirstlyAPI;
 import com.squareup.okhttp.ResponseBody;
@@ -36,14 +37,15 @@ import retrofit.Retrofit;
 public class LoginActivity extends AppCompatActivity {
 
     private CallbackManager callbackManager;
-    private LoginManager loginManager;
+    private LoginManager    loginManager;
 
-    @Inject FirstlyAPI API;
+    @Inject FirstlyAPI        API;
+    @Inject AccessTokenHolder tokenHolder;
 
-    @Bind(R.id.activity_login_fb_button) TextView loginButton;
+    @Bind (R.id.activity_login_fb_button) TextView loginButton;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    protected void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
@@ -55,15 +57,16 @@ public class LoginActivity extends AppCompatActivity {
 
         loginManager.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
-            public void onSuccess(LoginResult loginResult) {
+            public void onSuccess (LoginResult loginResult) {
 
-                AccessToken accessToken = loginResult.getAccessToken();
+                final AccessToken accessToken = loginResult.getAccessToken();
 
                 Call<ResponseBody> call = API.auth(new AuthRequest(accessToken.getToken()));
 
                 call.enqueue(new Callback<ResponseBody>() {
                     @Override
                     public void onResponse (Response<ResponseBody> response, Retrofit retrofit) {
+                        tokenHolder.token = accessToken.getToken();
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         startActivity(intent);
                         finish();
@@ -79,24 +82,24 @@ public class LoginActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onCancel() {
-                Snackbar.make(loginButton, "Login Cancelled by User", Snackbar.LENGTH_LONG).show();
+            public void onCancel () {
+              Snackbar.make(loginButton, "Login Cancelled by User", Snackbar.LENGTH_LONG).show();
             }
 
             @Override
-            public void onError(FacebookException error) {
-                Snackbar.make(loginButton, error.getMessage(), Snackbar.LENGTH_LONG).show();            }
+            public void onError (FacebookException error) {
+              Snackbar.make(loginButton, error.getMessage(), Snackbar.LENGTH_LONG).show();
             }
-        );
+        });
     }
 
-    @OnClick(R.id.activity_login_fb_button)
-    public void login() {
+    @OnClick (R.id.activity_login_fb_button)
+    public void login () {
         loginManager.logInWithReadPermissions(this, Arrays.asList("user_friends"));
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult (int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
     }

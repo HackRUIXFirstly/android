@@ -1,5 +1,6 @@
 package com.github.hackruixfirstly.firstly.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -66,6 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     @OnClick (R.id.fab)
     public void onFabClick (View v) {
-        Snackbar.make(v, "You touched my fab!", Snackbar.LENGTH_LONG).show();
+        Intent intent = new Intent(this, NewExperienceActivity.class);
+        startActivity(intent);
     }
 }

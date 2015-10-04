@@ -58,4 +58,10 @@ public class FirstlyModule {
         return retrofit.create(FirstlyAPI.class);
     }
 
+    @Provides
+    @Singleton
+    public AccessTokenHolder provideTokenHolder() {
+        return new AccessTokenHolder(); //TODO this is horrible design, but I need a temp workaround since backend is being weird.
+    }
+
 }

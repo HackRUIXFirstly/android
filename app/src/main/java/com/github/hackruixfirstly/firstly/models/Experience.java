@@ -11,4 +11,8 @@ public class Experience extends BaseModel {
     public Date   dateCreated;
     public String facebookId;
 
+    public Experience(String text) {
+        this.text = text;
+    }
+
 }
