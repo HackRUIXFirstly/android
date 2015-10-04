@@ -37,7 +37,7 @@ public class FirstlyModule {
     @Provides
     @Named("endpoint")
     public String provideEndpoint() {
-        return "http://firstly.shiggy.xyz"; //TODO no hardcoding.
+        return "http://shiggy.xyz/api/"; //TODO no hardcoding.
     }
 
     @Provides

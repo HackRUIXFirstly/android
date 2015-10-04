@@ -1,5 +1,6 @@
 package com.github.hackruixfirstly.firstly.depdendencies;
 
+import com.github.hackruixfirstly.firstly.activities.LoginActivity;
 import com.github.hackruixfirstly.firstly.activities.MainActivity;
 
 import javax.inject.Singleton;
@@ -15,5 +16,7 @@ import dagger.Component;
 public interface FirstlyComponent {
 
     void inject(MainActivity mainActivity);
+
+    void inject(LoginActivity loginActivity);
 
 }

@@ -5,6 +5,7 @@ package com.github.hackruixfirstly.firstly.models;
  */
 public class BaseModel {
 
-
+    public String id;
+    public int __v;
 
 }
