@@ -53,7 +53,7 @@ public class NewExperienceActivity extends AppCompatActivity {
             call.enqueue(new Callback<Experience>() {
                 @Override
                 public void onResponse (Response<Experience> response, Retrofit retrofit) {
-                    finish();
+                    finish(); // TODO getting a 200 but not getting here, something must be wrong with deserialization.
                 }
 
                 @Override
