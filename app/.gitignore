@@ -1,3 +1,5 @@
+/src/main/res/values/secrets.xml
+/values/secrets.xml
 /build
 app.iml
 release.properties
